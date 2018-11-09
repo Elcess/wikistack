@@ -6,15 +6,22 @@ const Sequelize = require('sequelize');
 const bodyParser = require('body-parser');
 const layout = require('./views/layout');
 const models = require('./models');
+const wiki = require('./routes/wiki');
+const user = require('./routes/user');
 
-// models.authenticate().then(() => {
-//   console.log('connected to the database');
-// });
+
+models.db.authenticate().then(() => {
+  console.log('connected to the database');
+});
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/wiki', wiki);
+app.use('/user', user);
+
+
 
 app.get('/', (req, res) => {
   res.send(layout(''));
