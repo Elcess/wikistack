@@ -6,19 +6,18 @@ const db = new Sequelize('postgres://localhost:5432/wikistack', {
 const Page = db.define('page', {
   title: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   slug: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   content: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
   },
   status: {
     type: Sequelize.ENUM('open', 'closed'),
-
   },
 });
 
@@ -27,24 +26,24 @@ const generateSlug = title => {
 };
 
 Page.addHook('beforeValidate', (page, options) => {
-
   page.slug = generateSlug(page.title);
 });
 
 const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      isEmail: true
-
-    }
+      isEmail: true,
+    },
   },
 });
+
+Page.belongsTo(User, { as: 'author' });
 
 module.exports = {
   db,

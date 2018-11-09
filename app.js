@@ -9,7 +9,6 @@ const models = require('./models');
 const wiki = require('./routes/wiki');
 const user = require('./routes/user');
 
-
 models.db.authenticate().then(() => {
   console.log('connected to the database');
 });
@@ -20,8 +19,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/wiki', wiki);
 app.use('/user', user);
-
-
 
 app.get('/', (req, res) => {
   res.send(layout(''));
